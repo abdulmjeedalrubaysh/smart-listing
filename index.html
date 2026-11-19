@@ -61,7 +61,7 @@ h2{font-weight:600;font-size:16px;padding-bottom:10px;border-bottom:1px solid #D
       <div id="fbq"><div class="flex flex-wrap items-center gap-2"><span class="font-semibold">هل كانت التعبئة صحيحة؟</span>
         <button id="fy" type="button" class="border border-brand text-brand bg-white rounded-md px-3 py-1.5">نعم، صحيحة</button>
         <button id="fn" type="button" class="border border-[#9A6A0E] text-[#9A6A0E] bg-white rounded-md px-3 py-1.5">تحتاج تعديل</button></div>
-        <input id="fnote" class="in mt-2" maxlength="500" placeholder="ملاحظة (اختياري): ما الذي كان خاطئًا أو ناقصًا؟"></div>
+      </div>
       <p id="fbd" hidden class="font-semibold text-[#006b2c]">شكرًا، تم تسجيل ملاحظتك.</p>
     </div>
   </section>
@@ -136,7 +136,7 @@ function snap(){
   s.opts=pressed(OPT);s.feats=pressed(FEAT);return s;
 }
 function state(){const f=snap();return{final:f,changed:AI?Object.keys(f).filter(k=>JSON.stringify(f[k])!==JSON.stringify(AI[k])).map(k=>LB[k]):[]}}
-function fb(rating){log('feedback',{rating,note:$('#fnote').value.trim().slice(0,500),...state()});$('#fbq').hidden=true;$('#fbd').hidden=false}
+function fb(rating){log('feedback',{rating,...state()});$('#fbq').hidden=true;$('#fbd').hidden=false}
 $('#lognote').hidden=!LOG_URL;
 
 // ---- build UI
@@ -211,7 +211,7 @@ async function fill(text,src='pasted'){
   miss.forEach(k=>mark(k,'miss'));
   setSt(`تمت تعبئة ${n} بيانات من الوصف. `+(miss.length?`لم يرد في الوصف: ${miss.map(k=>CORE[k]).join('، ')}.`:'راجع البيانات ثم انشر الإعلان.'));
   $('#go').disabled=$('#demo').disabled=false;
-  AI=snap();$('#fb').hidden=false;$('#fbq').hidden=false;$('#fbd').hidden=true;$('#fnote').value='';
+  AI=snap();$('#fb').hidden=false;$('#fbq').hidden=false;$('#fbd').hidden=true;
   log('fill',{src,text:text.trim().slice(0,5000),n,missing:miss.map(k=>CORE[k]),extracted:r});
 }
 
