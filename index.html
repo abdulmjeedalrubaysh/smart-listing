@@ -51,11 +51,19 @@ h2{font-weight:600;font-size:16px;padding-bottom:10px;border-bottom:1px solid #D
     <label for="src" class="font-semibold block mb-1">الصق وصف العقار هنا ليقوم المساعد الذكي بتعبئة الحقول تلقائياً</label>
     <p class="text-sm text-[#555] mb-3">اكتب الوصف كما تكتبه عادةً: الإيجار، المساحة، عدد الغرف، المميزات.</p>
     <textarea id="src" rows="4" class="in leading-7" placeholder="مثال: شقة للإيجار، مساحتها 160 متر، ثلاث غرف ودورتين مياه، الإيجار السنوي 48 ألف ريال"></textarea>
+    <p id="lognote" class="text-xs text-[#555] mt-2">تُسجَّل تجربتك (النص الذي تلصقه ونتيجة التعبئة) لتحسين النموذج، فلا تكتب أرقام جوالات أو بيانات شخصية.</p>
     <div class="flex flex-wrap items-center gap-3 mt-3">
       <button id="go" type="button" class="bg-brand text-white font-semibold rounded-lg px-5 py-2.5 disabled:opacity-60">تعبئة ذكية بالذكاء الاصطناعي</button>
       <button id="demo" type="button" class="border border-brand text-brand bg-white text-xs rounded-md px-3 py-1.5 disabled:opacity-60">تعبئة بوصف تجريبي</button>
     </div>
     <p id="st" role="status" aria-live="polite" class="mt-3 text-sm min-h-[22px] text-[#006b2c]"></p>
+    <div id="fb" hidden class="mt-3 pt-3 border-t border-[#b7dcc2] text-sm">
+      <div id="fbq"><div class="flex flex-wrap items-center gap-2"><span class="font-semibold">هل كانت التعبئة صحيحة؟</span>
+        <button id="fy" type="button" class="border border-brand text-brand bg-white rounded-md px-3 py-1.5">نعم، صحيحة</button>
+        <button id="fn" type="button" class="border border-[#9A6A0E] text-[#9A6A0E] bg-white rounded-md px-3 py-1.5">تحتاج تعديل</button></div>
+        <input id="fnote" class="in mt-2" maxlength="500" placeholder="ملاحظة (اختياري): ما الذي كان خاطئًا أو ناقصًا؟"></div>
+      <p id="fbd" hidden class="font-semibold text-[#006b2c]">شكرًا، تم تسجيل ملاحظتك.</p>
+    </div>
   </section>
 
   <section class="space-y-5">
@@ -108,7 +116,28 @@ const CORE={rent:'الإيجار السنوي',bed:'غرف النوم',hall:'ا�
 const STEPS=['rent','area','quarterly','semi','monthly','broker','opts','bed','hall','kind','bath','street','floor','age','feats'];
 const DEMOS=['شقة للإيجار في حي النرجس بالرياض، مساحتها 160 متر، ثلاث غرف نوم وصالتين ودورتين مياه، للعوائل، الدور الثاني، عمر العقار سنتين، شارع عرض 20، مطبخ راكب ومكيفات ومصعد ومدخل سيارة، يتوفر ماء وكهرباء وصرف صحي. الإيجار السنوي 48 ألف ريال، أقبل الشهري 4500 ريال وربع سنوي 13000 ريال، لا يوجد سعي.',
 'شقة في فيلا للإيجار، غرفتين نوم وصالة ودورة مياه، عزاب، الدور الأرضي، عمرها جديد، مساحة 90 م2، شارع 12، مؤثثة بالكامل مع مطبخ ومكيفات، مدخل خاص وسطح خاص. السعر 28 ألف ريال سنوي، والدفع شهري 2500، سعي نص شهر.'];
-let di=0,V={};
+let di=0,V={},AI=null;
+// ---- سجل التجارب: الصق هنا رابط Google Apps Script (ينتهي بـ /exec). إن تُرك فارغًا لا يُرسل شيء.
+const LOG_URL='https://script.google.com/macros/s/AKfycbywVaeeMHWszyRx2lC-wro18TYnS35sVyUpNPgN8ShQgiGqZIen0TIcG8XlbSMLzbTZvw/exec';
+const rid=()=>Math.random().toString(36).slice(2,10);
+let SID;try{SID=localStorage.sid||(localStorage.sid=rid())}catch{SID=rid()}
+function log(type,d={}){
+  const p={type,sid:SID,ua:`${navigator.userAgent.slice(0,100)} | ${innerWidth}px`,...d};
+  if(!LOG_URL){console.debug('[trial]',p);return}
+  try{fetch(LOG_URL,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain'},body:JSON.stringify(p)})}catch{}
+}
+const LB={rent:'الإيجار السنوي',area:'المساحة',street:'عرض الشارع',opts:'معلومات اختيارية',feats:'المزايا'};
+Object.entries(G).forEach(([k,g])=>LB[k]=g[0]);PER.forEach(p=>LB[p[0]]=p[1]);
+const pressed=a=>a.filter(([k])=>$(`[data-c="${k}"]`).getAttribute('aria-pressed')==='true').map(x=>x[0]);
+function snap(){
+  const s={rent:+$('#f-rent').value||null,area:+$('#f-area').value||null,street:+$('#f-street').value||null};
+  Object.keys(G).forEach(g=>{const m=$('#m-'+g);s[g]=V[g]==='more'?(m&&m.value)||null:V[g]??null});
+  PER.forEach(([k])=>{s[k]=$('#c-'+k).checked?(+$('#a-'+k).value||0):null});
+  s.opts=pressed(OPT);s.feats=pressed(FEAT);return s;
+}
+function state(){const f=snap();return{final:f,changed:AI?Object.keys(f).filter(k=>JSON.stringify(f[k])!==JSON.stringify(AI[k])).map(k=>LB[k]):[]}}
+function fb(rating){log('feedback',{rating,note:$('#fnote').value.trim().slice(0,500),...state()});$('#fbq').hidden=true;$('#fbd').hidden=false}
+$('#lognote').hidden=!LOG_URL;
 
 // ---- build UI
 Object.entries(G).forEach(([k,[l,o,mp,opt]])=>{
@@ -164,7 +193,7 @@ function reset(){
 const setSt=m=>$('#st').textContent=m;
 function toast(m){const t=$('#toast');t.textContent=m;t.style.opacity=1;clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity=0,2600)}
 
-async function fill(text){
+async function fill(text,src='pasted'){
   if(!text.trim()){setSt('الصق وصف العقار أولاً، ثم اضغط «تعبئة ذكية بالذكاء الاصطناعي».');$('#src').focus();return}
   $('#go').disabled=$('#demo').disabled=true;
   for(const s of ['قراءة الوصف…','استخراج بيانات العقار…','مطابقة الحقول…']){setSt(s);await sleep(420)}
@@ -182,12 +211,14 @@ async function fill(text){
   miss.forEach(k=>mark(k,'miss'));
   setSt(`تمت تعبئة ${n} بيانات من الوصف. `+(miss.length?`لم يرد في الوصف: ${miss.map(k=>CORE[k]).join('، ')}.`:'راجع البيانات ثم انشر الإعلان.'));
   $('#go').disabled=$('#demo').disabled=false;
+  AI=snap();$('#fb').hidden=false;$('#fbq').hidden=false;$('#fbd').hidden=true;$('#fnote').value='';
+  log('fill',{src,text:text.trim().slice(0,5000),n,missing:miss.map(k=>CORE[k]),extracted:r});
 }
 
 $('#go').onclick=()=>fill($('#src').value);
-$('#demo').onclick=()=>{const d=DEMOS[di++%DEMOS.length];$('#src').value=d;fill(d)};
-$('#clr').onclick=()=>{reset();$('#src').value='';setSt('')};
-$('#pub').onclick=()=>toast($('#f-rent').value?'تم نشر الإعلان (نموذج أولي)':'أدخل مبلغ الإيجار السنوي قبل نشر الإعلان');
+$('#demo').onclick=()=>{const d=DEMOS[di++%DEMOS.length];$('#src').value=d;fill(d,'demo')};
+$('#clr').onclick=()=>{reset();$('#src').value='';setSt('');AI=null;$('#fb').hidden=true};
+$('#pub').onclick=()=>{const ok=!!$('#f-rent').value;log('publish',{ok,...state()});toast(ok?'تم نشر الإعلان (نموذج أولي)':'أدخل مبلغ الإيجار السنوي قبل نشر الإعلان')};
 document.addEventListener('click',e=>{
   const p=e.target.closest('.pill');
   if(p){const g=p.parentElement.dataset.g;clr(p);V[g]=V[g]===p.dataset.v?null:p.dataset.v;paint();return}
@@ -196,6 +227,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('input',e=>clr(e.target));
 document.addEventListener('change',e=>{if(e.target.matches('.cb'))paint()});
+$('#fy').onclick=()=>fb('صحيحة');$('#fn').onclick=()=>fb('تحتاج تعديل');
 paint();
 </script>
 </body>
