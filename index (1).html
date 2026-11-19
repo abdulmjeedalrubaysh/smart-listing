@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>عقار | التعبئة الذكية للإعلان</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{brand:'#008236',soft:'#E8F5EC',line:'#DDDDDD'},fontFamily:{sans:['IBM Plex Sans Arabic','Tahoma','sans-serif']}}}}</script>
+<style>
+.lb{display:flex;align-items:center;gap:6px;margin-bottom:8px;font-weight:600;font-size:14px}
+.lb small{font-weight:400;color:#777;font-size:12px}
+.b{display:none;font-style:normal;font-size:10px;font-weight:500;background:#008236;color:#fff;border-radius:99px;padding:1px 8px}
+.w.ai .b,.chip.ai::after{display:inline-block}
+.hint{display:none;font-style:normal;font-weight:400;font-size:12px;color:#9A6A0E;margin-inline-start:auto}.w.miss .hint{display:block}
+.in{width:100%;border:1px solid #DDD;border-radius:8px;padding:10px 12px;background:#fff;font:inherit;transition:background .3s,border-color .3s}
+.in:focus-visible,button:focus-visible,.cb:focus-visible{outline:2px solid #008236;outline-offset:2px}
+.w.ai .in{background:#E8F5EC;border-color:#008236}
+.w.miss .in{background:#FFF7E6;border-color:#D69E2E}
+.sfx{position:relative}.sfx .in{padding-left:44px}.sfx span{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;color:#777}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.pill{flex:1;min-width:44px;border:1px solid #DDD;border-radius:8px;padding:9px 6px;background:#fff;font-size:14px;transition:.2s}
+.pill[aria-pressed=true]{background:#008236;border-color:#008236;color:#fff}
+.w.miss .pill{border-color:#D69E2E}
+.chip{border:1px solid #DDD;border-radius:8px;padding:9px 14px;font-size:14px;background:#fff;transition:.2s}
+.chip[aria-pressed=true]{background:#E8F5EC;border-color:#008236;color:#006b2c}
+.chip[aria-pressed=true]::before{content:'✓ '}
+.chip.ai::after{display:none;content:'AI';font-size:10px;background:#008236;color:#fff;border-radius:99px;padding:0 7px;margin-inline-start:6px}
+.cb{width:20px;height:20px;accent-color:#008236}
+@keyframes pop{from{box-shadow:0 0 0 5px rgba(0,130,54,.3)}to{box-shadow:0 0 0 0 transparent}}
+.w.new .in,.w.new .pill[aria-pressed=true],.chip.new{animation:pop .8s}
+h2{font-weight:600;font-size:16px;padding-bottom:10px;border-bottom:1px solid #DDD}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="bg-[#F4F5F6] text-[#222] font-sans">
+
+<header class="bg-white border-b border-line">
+  <div class="max-w-[1100px] mx-auto px-4 h-16 flex items-center gap-8">
+    <img src="data:image/png;base64,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" alt="عقار" class="h-9">
+    <nav class="hidden sm:flex gap-6 text-[#444] text-[15px]"><span>الإعلانات</span><span>المشاريع</span><span>الحجوزات</span></nav>
+    <div class="ms-auto flex items-center gap-5 text-[15px] text-[#444]"><span class="hidden sm:inline">الخريطة</span><span>+ إضافة</span>
+      <span class="w-9 h-9 rounded-lg border border-line grid place-items-center" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="#222"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span></div>
+  </div>
+</header>
+
+<main class="max-w-[720px] mx-auto px-3 py-6">
+ <div class="bg-white border border-line rounded-lg p-4 sm:p-5 space-y-6">
+
+  <section class="bg-soft border border-[#b7dcc2] rounded-lg p-4">
+    <label for="src" class="font-semibold block mb-1">الصق وصف العقار هنا ليقوم المساعد الذكي بتعبئة الحقول تلقائياً</label>
+    <p class="text-sm text-[#555] mb-3">اكتب الوصف كما تكتبه عادةً: الإيجار، المساحة، عدد الغرف، المميزات.</p>
+    <textarea id="src" rows="4" class="in leading-7" placeholder="مثال: شقة للإيجار، مساحتها 160 متر، ثلاث غرف ودورتين مياه، الإيجار السنوي 48 ألف ريال"></textarea>
+    <div class="flex flex-wrap items-center gap-3 mt-3">
+      <button id="go" type="button" class="bg-brand text-white font-semibold rounded-lg px-5 py-2.5 disabled:opacity-60">تعبئة ذكية بالذكاء الاصطناعي</button>
+      <button id="demo" type="button" class="border border-brand text-brand bg-white text-xs rounded-md px-3 py-1.5 disabled:opacity-60">تعبئة بوصف تجريبي</button>
+    </div>
+    <p id="st" role="status" aria-live="polite" class="mt-3 text-sm min-h-[22px] text-[#006b2c]"></p>
+  </section>
+
+  <section class="space-y-5">
+    <h2>المعلومات</h2>
+    <div class="w" data-w="rent"><div class="lb"><label for="f-rent">مبلغ الإيجار السنوي</label><i class="b">AI</i><em class="hint">لم يرد في الوصف</em></div><div class="sfx"><input id="f-rent" class="in" type="number" min="0" inputmode="numeric"><span>ريال</span></div></div>
+    <div class="w" data-w="area"><div class="lb"><label for="f-area">المساحة بالمتر المربع</label><small>(اختياري)</small><i class="b">AI</i></div><div class="sfx"><input id="f-area" class="in" type="number" min="0" inputmode="numeric"><span>م²</span></div></div>
+    <div id="periods" class="space-y-3"></div>
+    <div id="g-broker"></div>
+    <div><div class="lb">معلومات <small>(اختياري)</small></div><div id="opts" class="row"></div></div>
+  </section>
+
+  <section class="space-y-5">
+    <h2>التفاصيل</h2>
+    <p class="text-sm text-[#555]">اختر عدد معين للتفاصيل التالية:</p>
+    <div id="g-bed"></div><div id="g-hall"></div><div id="g-kind"></div><div id="g-bath"></div>
+    <div class="w" data-w="street"><div class="lb"><label for="f-street">عرض الشارع</label><i class="b">AI</i><em class="hint">لم يرد في الوصف</em></div><div class="sfx"><input id="f-street" class="in" type="number" min="0" max="100" inputmode="numeric"><span>م</span></div></div>
+    <div id="g-floor"></div><div id="g-age"></div>
+  </section>
+
+  <section class="space-y-4">
+    <h2>المزايا</h2>
+    <div id="feats" class="row"></div>
+  </section>
+
+  <div class="flex gap-3 pt-2">
+    <button id="pub" type="button" class="flex-1 bg-brand text-white font-semibold rounded-lg py-3">نشر الإعلان</button>
+    <button id="clr" type="button" class="bg-[#626262] text-white font-semibold rounded-lg px-6 py-3">مسح الحقول</button>
+  </div>
+ </div>
+ <p class="text-xs text-[#777] text-center mt-4">نموذج أولي: يحاكي التحليل داخل المتصفح ولا يرسل أي بيانات إلى خادم.</p>
+</main>
+
+<div id="toast" class="fixed bottom-5 inset-x-0 mx-auto w-max max-w-[90%] bg-[#222] text-white text-sm rounded-lg px-4 py-2.5 opacity-0 pointer-events-none transition-opacity"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const rng=(n,m)=>Array.from({length:n},(_,i)=>[`${i+1}${i+1==n&&m?'+':''}`,String(i+1)]);
+// group: [label, options[label,value], placeholder for "more" input, optional]
+const G={
+  broker:['هل يوجد سعي؟',[['نعم','1'],['لا','0']],0,1],
+  bed:['غرف النوم',rng(7,1)],hall:['الصالات',rng(6,1)],
+  kind:['عوائل أم عزاب',[['عزاب','single'],['عوائل','family']]],
+  bath:['عدد دورات المياة',rng(7,1)],
+  floor:['الدور',[['أرضي','g'],['علوي','1'],['2','2'],['3','3'],['4','4'],['المزيد','more']],'رقم الدور'],
+  age:['عمر العقار',[['جديد','0'],['سنة','1'],['سنتين','2'],['3 سنوات','3'],['المزيد','more']],'عدد السنوات']};
+const PER=[['monthly','أقبل الإيجار الشهري','مبلغ الإيجار الشهري'],['quarterly','أقبل الإيجار الربع سنوي','مبلغ إيجار 3 أشهر'],['semi','أقبل الإيجار النصف سنوي','مبلغ إيجار 6 أشهر']];
+const OPT=[['water','توفر الماء',/(?:^|[^ء-ي]|ال|و)ماء(?![ء-ي])|(?:توفر|عداد)\S*\s*(?:ال)?مياه/],['elec','توفر الكهرباء',/كهرب/],['sewer','توفر صرف صحي',/صرف\s*صحي/],['roof','سطح خاص',/سطح\s*خاص/],['villa','في فيلا',/(?:في|داخل)\s*فيلا/],['two','مدخلين',/مدخلين/],['priv','مدخل خاص',/مدخل\s*خاص/]];
+const FEAT=[['furn','مؤثثة',/(?<!غير\s)مؤثث|مفروش/],['kit','مطبخ',/مطبخ/],['annex','ملحق',/ملحق/],['car','مدخل سيارة',/مدخل\s*(?:ل)?سيار/],['lift','مصعد',/مصعد|اسانسير/],['ac','مكيف',/مكيف|تكييف/]];
+const CORE={rent:'الإيجار السنوي',bed:'غرف النوم',hall:'الصالات',kind:'عوائل أم عزاب',bath:'دورات المياه',street:'عرض الشارع',floor:'الدور',age:'عمر العقار'};
+const STEPS=['rent','area','quarterly','semi','monthly','broker','opts','bed','hall','kind','bath','street','floor','age','feats'];
+const DEMOS=['شقة للإيجار في حي النرجس بالرياض، مساحتها 160 متر، ثلاث غرف نوم وصالتين ودورتين مياه، للعوائل، الدور الثاني، عمر العقار سنتين، شارع عرض 20، مطبخ راكب ومكيفات ومصعد ومدخل سيارة، يتوفر ماء وكهرباء وصرف صحي. الإيجار السنوي 48 ألف ريال، أقبل الشهري 4500 ريال وربع سنوي 13000 ريال، لا يوجد سعي.',
+'شقة في فيلا للإيجار، غرفتين نوم وصالة ودورة مياه، عزاب، الدور الأرضي، عمرها جديد، مساحة 90 م2، شارع 12، مؤثثة بالكامل مع مطبخ ومكيفات، مدخل خاص وسطح خاص. السعر 28 ألف ريال سنوي، والدفع شهري 2500، سعي نص شهر.'];
+let di=0,V={};
+
+// ---- build UI
+Object.entries(G).forEach(([k,[l,o,mp,opt]])=>{
+  $('#g-'+k).outerHTML=`<div class="w" data-w="${k}" id="g-${k}"><div class="lb"><span>${l}</span>${opt?'<small>(اختياري)</small>':''}<i class="b">AI</i><em class="hint">لم يرد في الوصف</em></div><div class="row" data-g="${k}">${o.map(([a,v])=>`<button type="button" class="pill" data-v="${v}" aria-pressed="false">${a}</button>`).join('')}</div>${mp?`<input type="number" min="0" class="in mt-2" id="m-${k}" placeholder="${mp}" hidden>`:''}</div>`});
+$('#periods').innerHTML=PER.map(([k,l,p])=>`<div class="w" data-w="${k}"><label class="flex items-center gap-3 font-semibold text-sm"><input type="checkbox" class="cb" id="c-${k}">${l}<i class="b">AI</i></label><input type="number" min="0" inputmode="numeric" class="in mt-2" id="a-${k}" placeholder="${p}" hidden></div>`).join('');
+const chips=a=>a.map(([k,l])=>`<button type="button" class="chip" data-c="${k}" aria-pressed="false">${l}</button>`).join('');
+$('#opts').innerHTML=chips(OPT);$('#feats').innerHTML=chips(FEAT);
+
+// ---- extraction (rule-based simulation of the AI model)
+const norm=s=>s.replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه');
+function extract(o){
+  const t=norm(o),r={};let w=t,m;
+  const N='(\\d+|واحد|ثلاث|اربع|خمس|ست|سبع|ثمان)ه?\\s*',nv=x=>/\d/.test(x)?+x:{واحد:1,ثلاث:3,اربع:4,خمس:5,ست:6,سبع:7,ثمان:8}[x];
+  const M='[^\\d]{0,12}(\\d[\\d,]*(?:\\.\\d+)?)\\s*(الف|الاف|مليون)?';
+  const amt=m=>Math.round(parseFloat(m[1].replace(/,/g,''))*({الف:1e3,الاف:1e3,مليون:1e6}[m[2]]||1));
+  const take=re=>{const x=w.match(re);if(x)w=w.slice(0,x.index)+' '.repeat(x[0].length)+w.slice(x.index+x[0].length);return x};
+  const has=re=>re.test(t);
+  for(const [k,re] of [['quarterly','(?:ربع\\s*سنوي|(?:3|ثلاث|ثلاثه)\\s*اشهر)'],['semi','(?:نصف\\s*سنوي|(?:6|ست|سته)\\s*اشهر)'],['monthly','شهري']]){
+    const x=take(new RegExp(re+M));if(x||has(new RegExp(re)))r[k]={amt:x?amt(x):null};
+  }
+  if(m=take(new RegExp('سنوي'+M))||take(/(\d[\d,]*(?:\.\d+)?)\s*(الف|الاف|مليون)?\s*ريال/)||take(new RegExp('(?:سعر|مطلوب)'+M)))r.rent=amt(m);
+  r.broker=has(/لا\s*(?:يوجد|توجد)\s*سعي|بدون\s*(?:سعي|عموله)/)?'0':has(/سعي|عموله/)?'1':undefined;
+  if(m=w.match(/مساح[^\d]{0,12}(\d[\d,]*(?:\.\d+)?)/)||w.match(/(\d[\d,]*)\s*(?:م2|م²|متر|م(?![ء-ي]))/))r.area=+m[1].replace(/,/g,'');
+  if(has(/غرفتين/))r.bed='2';else if(m=w.match(new RegExp(N+'غرف')))r.bed=String(Math.min(nv(m[1]),7));else if(has(/غرفه\s*نوم/))r.bed='1';
+  if(has(/صالتين/))r.hall='2';else if(m=w.match(new RegExp(N+'صالات')))r.hall=String(Math.min(nv(m[1]),6));else if(has(/صاله/))r.hall='1';
+  if(has(/دورتين|حمامين/))r.bath='2';else if(m=w.match(new RegExp(N+'(?:دورات|دوره|حمامات|حمام)')))r.bath=String(Math.min(nv(m[1]),7));else if(has(/دوره\s*مياه|حمام/))r.bath='1';
+  const f=has(/عوائل|عائل/),s=has(/عزاب|عزب/);if(f!==s)r.kind=f?'family':'single';
+  if(m=w.match(/شارع\s*(?:عرض\s*)?(\d+)|عرض\s*الشارع\s*(\d+)/))r.street=+(m[1]||m[2]);
+  if(m=t.match(/دور\s*(?:ال)?(ارضي|علوي|اول|ثاني|ثالث|رابع|\d+)/))r.floor={ارضي:'g',علوي:'1',اول:'1',ثاني:'2',ثالث:'3',رابع:'4'}[m[1]]||m[1];
+  if(m=t.match(/عمر\S*\s*(?:العقار\s*)?(?:(\d+)|(سنتين)|(سنه))/))r.age=m[1]||(m[2]?'2':'1');else if(has(/جديد/))r.age='0';
+  r.opts=OPT.filter(a=>a[2].test(t)).map(a=>a[0]);r.feats=FEAT.filter(a=>a[2].test(t)).map(a=>a[0]);
+  return r;
+}
+
+// ---- UI state helpers
+const clr=el=>{const w=el.closest('.w');if(w)w.classList.remove('ai','miss','new');el.classList.remove('ai','new')};
+const mark=(k,c)=>$(`[data-w=${k}]`).classList.add(...c.split(' '));
+function paint(){
+  $$('[data-g]').forEach(r=>{const g=r.dataset.g;[...r.children].forEach(b=>b.setAttribute('aria-pressed',V[g]===b.dataset.v));const m=$('#m-'+g);if(m)m.hidden=V[g]!=='more'});
+  PER.forEach(([k])=>$('#a-'+k).hidden=!$('#c-'+k).checked);
+}
+function setG(g,v){
+  if(G[g][1].some(o=>o[1]===String(v)))V[g]=String(v);
+  else if(G[g][2]){V[g]='more';$('#m-'+g).value=v}
+}
+function chip(k,ai){const c=$(`[data-c="${k}"]`);c.setAttribute('aria-pressed','true');if(ai)c.classList.add('ai','new')}
+function reset(){
+  $$('input[type=number]').forEach(e=>e.value='');$$('.cb').forEach(e=>e.checked=false);V={};
+  $$('.w').forEach(w=>w.classList.remove('ai','miss','new'));
+  $$('.chip').forEach(c=>{c.setAttribute('aria-pressed','false');c.classList.remove('ai','new')});
+  paint();
+}
+const setSt=m=>$('#st').textContent=m;
+function toast(m){const t=$('#toast');t.textContent=m;t.style.opacity=1;clearTimeout(t._t);t._t=setTimeout(()=>t.style.opacity=0,2600)}
+
+async function fill(text){
+  if(!text.trim()){setSt('الصق وصف العقار أولاً، ثم اضغط «تعبئة ذكية بالذكاء الاصطناعي».');$('#src').focus();return}
+  $('#go').disabled=$('#demo').disabled=true;
+  for(const s of ['قراءة الوصف…','استخراج بيانات العقار…','مطابقة الحقول…']){setSt(s);await sleep(420)}
+  reset();
+  const r=extract(text);let n=0;
+  for(const k of STEPS){
+    if(k==='opts'||k==='feats'){for(const c of r[k]){chip(c,1);n++;await sleep(60)}continue}
+    const v=r[k];if(v==null)continue;
+    if(['rent','area','street'].includes(k))$('#f-'+k).value=v;
+    else if(G[k])setG(k,v);
+    else{$('#c-'+k).checked=true;if(v.amt)$('#a-'+k).value=v.amt}
+    paint();mark(k,'ai new');n++;await sleep(100);
+  }
+  const miss=Object.keys(CORE).filter(k=>r[k]==null);
+  miss.forEach(k=>mark(k,'miss'));
+  setSt(`تمت تعبئة ${n} بيانات من الوصف. `+(miss.length?`لم يرد في الوصف: ${miss.map(k=>CORE[k]).join('، ')}.`:'راجع البيانات ثم انشر الإعلان.'));
+  $('#go').disabled=$('#demo').disabled=false;
+}
+
+$('#go').onclick=()=>fill($('#src').value);
+$('#demo').onclick=()=>{const d=DEMOS[di++%DEMOS.length];$('#src').value=d;fill(d)};
+$('#clr').onclick=()=>{reset();$('#src').value='';setSt('')};
+$('#pub').onclick=()=>toast($('#f-rent').value?'تم نشر الإعلان (نموذج أولي)':'أدخل مبلغ الإيجار السنوي قبل نشر الإعلان');
+document.addEventListener('click',e=>{
+  const p=e.target.closest('.pill');
+  if(p){const g=p.parentElement.dataset.g;clr(p);V[g]=V[g]===p.dataset.v?null:p.dataset.v;paint();return}
+  const c=e.target.closest('.chip');
+  if(c){clr(c);c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true')}
+});
+document.addEventListener('input',e=>clr(e.target));
+document.addEventListener('change',e=>{if(e.target.matches('.cb'))paint()});
+paint();
+</script>
+</body>
+</html>
